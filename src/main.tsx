@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
-import { HeartPulse, ShieldCheck, Stethoscope, CalendarDays, MapPin, LockKeyhole, Search, ArrowRight } from 'lucide-react'
+import { HeartPulse, ShieldCheck, Stethoscope, CalendarDays, MapPin, Search, ArrowRight } from 'lucide-react'
 import './index.css'
 import Shell from './app/Shell'
 import { applyTheme, loadTheme } from './lib/theme'
