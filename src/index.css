@@ -53,3 +53,6 @@ button:active { transform: scale(.975); }
 .privacy-dots i.lit { background:#3d8b6a;box-shadow:0 0 12px #3d8b6a80; }
 .privacy-foot { display:block;margin-top:32px;font-size:9px;letter-spacing:.16em;color:#91a19a; }
 @media(prefers-reduced-motion:reduce){.orbit-app .sun-glow::before,.orbit-app .sun-glow::after{animation:none}button:active{transform:none}}
+
+.orbit-glass .bg-panel { background-color: rgb(var(--panel) / .78); backdrop-filter: blur(16px); }
+.orbit-glass .bg-raised { background-color: rgb(var(--raised) / .78); backdrop-filter: blur(12px); }
