@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Solar (default): black + white with a white sun glow */
+:root {
+  --bg: 0 0 0;
+  --panel: 10 10 10;
+  --raised: 20 20 20;
+  --line: 38 38 38;
+  --fg: 250 250 250;
+  --muted: 140 140 140;
+  --accent: 255 255 255;
+  --on-accent: 0 0 0;
+}
+
+html, body, #root { height: 100%; }
+body { margin: 0; }
+
+.orbit-app { background: rgb(var(--bg)); color: rgb(var(--fg)); }
+
+.sun-glow {
+  background:
+    radial-gradient(600px circle at 50% 38%, rgb(var(--accent) / 0.10), transparent 60%),
+    radial-gradient(1200px circle at 50% 38%, rgb(var(--accent) / 0.04), transparent 70%);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+.thin-scroll::-webkit-scrollbar { width: 8px; }
+.thin-scroll::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 8px; }
