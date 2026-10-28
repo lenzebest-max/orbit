@@ -1,19 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Play, Heart, LoaderCircle, ListMusic, Search, Music2, Plus } from 'lucide-react'
+import { Play, Heart, LoaderCircle, Plus } from 'lucide-react'
 import { Page, SearchBox, Section, Tile, Button, Empty, useSavedState } from './_shared'
 import { usePlayer, type Track } from '../lib/player'
-type AudiusTrack={id:string;title:string;user?:{name?:string};artwork?:{\u0024700x700?:string;\u0022600x600?:string;\u0022150x150?:string};duration?:number;genre?:string;permalink?:string}
+type AudiusTrack={id:string;title:string;user?:{name?:string};artwork?:Record<string,string|undefined>;duration?:number;genre?:string;permalink?:string}
 type Collection={id:string;title:string;artist:string;art:string;src:string;genre:string}
 const APP='orbit'
-const fallback:Collection[]=[
-{id:'fallback-1',title:'Sunset Drive',artist:'Orbit Radio',art:'',src:'',genre:'Electronic'},
-{id:'fallback-2',title:'Late Night Focus',artist:'Orbit Radio',art:'',src:'',genre:'Lo-Fi'},
-{id:'fallback-3',title:'Fresh Start',artist:'Orbit Radio',art:'',src:'',genre:'Pop'},
-]
 export default function MusicPage(){
  const [q,setQ]=useState('');const [genre,setGenre]=useState('Trending');const [tracks,setTracks]=useState<Collection[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState('');const [favorites,setFavorites]=useSavedState<string[]>('orbit.music.favorites',[]);const [playlists,setPlaylists]=useSavedState<{id:string;name:string;ids:string[]}[]>('orbit.music.playlists',[]);const [showLiked,setShowLiked]=useState(false)
  const player=usePlayer()
- useEffect(()=>{let alive=true;const run=async()=>{setLoading(true);setError('');try{const params=new URLSearchParams({app_name:APP,limit:'100'});if(genre!=='Trending'&&genre!=='Liked songs'&&genre!=='Playlists')params.set('genre',genre);const endpoint='https://api.audius.co/v1/tracks/trending?'+params.toString();const r=await fetch(endpoint);if(!r.ok)throw new Error('Audius API returned '+r.status);const data=await r.json() as {data?:AudiusTrack[]};const mapped=(data.data??[]).map(t=>({id:t.id,title:t.title,artist:t.user?.name??'Unknown artist',art:t.artwork?.['600x600']??t.artwork?.['700x700']??t.artwork?.['150x150']??'',src:'https://api.audius.co/v1/tracks/'+encodeURIComponent(t.id)+'/stream?app_name='+APP,genre:t.genre??'Other'})).filter(t=>t.title&&t.src);if(alive){setTracks(mapped);if(!mapped.length)setError('Audius did not return tracks for this category.')}}catch(e){if(alive){setError(e instanceof Error?e.message:'Unable to connect to Audius.');setTracks([])}}finally{if(alive)setLoading(false)}};void run();return()=>{alive=false}},[genre])
+ useEffect(()=>{let alive=true;const run=async()=>{setLoading(true);setError('');try{const params=new URLSearchParams({app_name:APP,limit:'100'});if(genre!=='Trending'&&genre!=='Liked songs'&&genre!=='Playlists')params.set('genre',genre);const endpoint='https://api.audius.co/v1/tracks/'+(q.trim()?'search':'trending')+'?'+new URLSearchParams({...Object.fromEntries(params),...(q.trim()?{query:q.trim()}:{})}).toString();const r=await fetch(endpoint);if(!r.ok)throw new Error('Audius API returned '+r.status);const data=await r.json() as {data?:AudiusTrack[]};const mapped=(data.data??[]).map(t=>({id:t.id,title:t.title,artist:t.user?.name??'Unknown artist',art:t.artwork?.['600x600']??t.artwork?.['700x700']??t.artwork?.['150x150']??'',src:'https://api.audius.co/v1/tracks/'+encodeURIComponent(t.id)+'/stream?app_name='+APP,genre:t.genre??'Other'})).filter(t=>t.title&&t.src);if(alive){setTracks(mapped);if(!mapped.length)setError('Audius did not return tracks for this category.')}}catch(e){if(alive){setError(e instanceof Error?e.message:'Unable to connect to Audius.');setTracks([])}}finally{if(alive)setLoading(false)}};void run();return()=>{alive=false}},[genre,q])
  const list=useMemo(()=>{const base=showLiked||genre==='Liked songs'?tracks.filter(t=>favorites.includes(t.id)):tracks;return base.filter(t=>(t.title+' '+t.artist+' '+t.genre).toLowerCase().includes(q.toLowerCase()))},[tracks,q,favorites,showLiked,genre])
  function play(t:Collection){const track:Track={id:t.id,title:t.title,artist:t.artist,art:t.art,src:t.src};player.play(track,list.map(x=>({id:x.id,title:x.title,artist:x.artist,art:x.art,src:x.src})))}
  function createPlaylist(){const name=prompt('Playlist name');if(name?.trim())setPlaylists(p=>[...p,{id:crypto.randomUUID(),name:name.trim(),ids:[]}])}
