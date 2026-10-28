@@ -56,3 +56,29 @@ button:active { transform: scale(.975); }
 
 .orbit-glass .bg-panel { background-color: rgb(var(--panel) / .78); backdrop-filter: blur(16px); }
 .orbit-glass .bg-raised { background-color: rgb(var(--raised) / .78); backdrop-filter: blur(12px); }
+
+.orbit-starfield {
+  background-image:
+    radial-gradient(1px 1px at 8% 16%, rgb(var(--accent) / .85) 50%, transparent 100%),
+    radial-gradient(1px 1px at 19% 74%, rgb(var(--accent) / .65) 50%, transparent 100%),
+    radial-gradient(2px 2px at 31% 42%, rgb(var(--accent) / .55) 50%, transparent 100%),
+    radial-gradient(1px 1px at 46% 22%, rgb(var(--accent) / .8) 50%, transparent 100%),
+    radial-gradient(1px 1px at 58% 83%, rgb(var(--accent) / .6) 50%, transparent 100%),
+    radial-gradient(2px 2px at 71% 35%, rgb(var(--accent) / .75) 50%, transparent 100%),
+    radial-gradient(1px 1px at 84% 64%, rgb(var(--accent) / .7) 50%, transparent 100%),
+    radial-gradient(1px 1px at 93% 13%, rgb(var(--accent) / .8) 50%, transparent 100%),
+    radial-gradient(ellipse at 50% 35%, rgb(var(--accent) / .07), transparent 58%);
+  background-size: 100% 100%;
+  animation: orbit-twinkle 6s ease-in-out infinite alternate;
+}
+.orbit-logo-dot { animation: orbit-circle 5s linear infinite; }
+.orbit-shooting-star {
+  top: 20%; left: 75%; width: 110px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--accent) / .8), transparent);
+  transform: rotate(-35deg); opacity: 0;
+  animation: orbit-shoot 9s ease-in-out 2s infinite;
+}
+@keyframes orbit-twinkle { from { opacity: .45; } to { opacity: 1; } }
+@keyframes orbit-circle { from { transform: translate(0,0); } 25% { transform: translate(5px,4px); } 50% { transform: translate(0,8px); } 75% { transform: translate(-5px,4px); } to { transform: translate(0,0); } }
+@keyframes orbit-shoot { 0%, 78%, 100% { opacity: 0; translate: 30px -20px; } 80% { opacity: .9; } 88% { opacity: 0; translate: -180px 120px; } }
+@media (prefers-reduced-motion: reduce) { .orbit-starfield, .orbit-logo-dot, .orbit-shooting-star { animation: none; } }
