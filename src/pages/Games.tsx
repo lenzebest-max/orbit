@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
-import { Heart, Clock3, ExternalLink, Gamepad2, Maximize2, RotateCw, Search, LoaderCircle, AlertTriangle } from 'lucide-react'
+import { Heart, Clock3, ExternalLink, Gamepad2, Maximize2, RotateCw, AlertTriangle } from 'lucide-react'
 import { Page, SearchBox, Section, Tile, Button, Empty, useSavedState } from './_shared'
 import { withWebProxy } from '../lib/network'
 type Game={id:string;title:string;category:string;url:string;image:string;source:string;plays?:number;embed?:boolean}
