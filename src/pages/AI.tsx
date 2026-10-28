@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
-import { Bot, Send, Sparkles, Plus, Trash2 } from 'lucide-react'
+import { Send, Sparkles, Plus, Trash2 } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { Page, Button, Empty, useSavedState } from './_shared'
+import { Page, Button, useSavedState } from './_shared'
 type Message={role:'user'|'assistant';content:string}
 type ChatThread={id:string;title:string;messages:Message[];updated:number}
 const key='orbit.ai.threads'
