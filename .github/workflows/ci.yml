@@ -1,4 +1,4 @@
-name: Orbit CI
+name: Orbit CI # validates the browser and game library fixes
 
 on:
   push:
