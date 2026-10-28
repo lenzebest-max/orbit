@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Play, X, ExternalLink, LoaderCircle, Film } from 'lucide-react'
 import { Page, SearchBox, Section, Tile, Button, Empty } from './_shared'
 type Movie={identifier:string;title:string;year?:string;description?:string;genre:string}
-const collections=[{label:'Feature films',query:'collection:feature_films'},{label:'Sci-fi & horror',query:'collection:feature_films AND (subject:science_fiction OR subject:horror)'},{label:'Animation',query:'collection:animationandcartoons'},{label:'Film noir',query:'collection:film_noir'}]
 const API='https://archive.org/advancedsearch.php'
 function poster(m:Movie){return 'https://archive.org/services/img/'+encodeURIComponent(m.identifier)}
 export default function Movies(){
