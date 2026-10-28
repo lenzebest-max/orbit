@@ -1,0 +1,65 @@
+{
+  "name": "OrbitServer",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "icon_url": {
+      "type": "string"
+    },
+    "owner_id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "is_public": {
+      "type": "boolean"
+    },
+    "member_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "owner_id"
+  ],
+  "rls": {
+    "create": {
+      "data.owner_id": "{{user.id}}"
+    },
+    "read": {
+      "user_condition": {
+        "role": "user"
+      }
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
