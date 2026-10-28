@@ -22,7 +22,15 @@ export function getBrowserMode(): BrowserMode {
 export function openInBrowserMode(url: string): boolean {
   const target = withWebProxy(url)
   const mode = getBrowserMode()
-  if (mode === 'embedded') return false
+  // DuckDuckGo refuses iframe embedding; open it separately rather than showing a broken blank frame.
+  let isDuckDuckGo = false
+  try { isDuckDuckGo = /(^|\\.)duckduckgo\\.com$/i.test(new URL(url).hostname) } catch { /* ignore malformed URL */ }
+  if (mode === 'embedded' && !isDuckDuckGo) return false
+  if (mode === 'embedded' && isDuckDuckGo) {
+    const tab = window.open(target, '_blank')
+    if (tab) { try { tab.opener = null } catch { /* browser security */ }; return true }
+    return false
+  }
   if (mode === 'new-tab') {
     const tab = window.open(target, '_blank')
     if (tab) {
