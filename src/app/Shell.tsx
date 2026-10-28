@@ -6,6 +6,8 @@ import { navOrder, pageFor, pages, toAddress } from './pages'
 import { PlayerProvider } from '../lib/player'
 import PlayerBar from './PlayerBar'
 import { load, save } from '../lib/storage'
+import { base44 } from '../lib/base44'
+import { openInBrowserMode } from '../lib/network'
 import Home from '../pages/Home'
 import AI from '../pages/AI'
 import Chat from '../pages/Chat'
@@ -74,7 +76,7 @@ export default function Shell() {
       const engine = load('orbit.settings.search', 'DuckDuckGo') as string
       const searchUrl = engine === 'Google' ? 'https://www.google.com/search?q=' : engine === 'Bing' ? 'https://www.bing.com/search?q=' : 'https://duckduckgo.com/?q='
       const url = /^https?:\/\//.test(v) || /^[\w-]+\.[\w.]+/.test(v) ? (v.startsWith('http') ? v : 'https://' + v) : searchUrl + encodeURIComponent(v)
-      navigate('/web?url=' + encodeURIComponent(url))
+      if (!openInBrowserMode(url)) navigate('/web?url=' + encodeURIComponent(url))
       setAddress(toAddress(location.pathname))
     }
   }
@@ -96,8 +98,8 @@ export default function Shell() {
             </label>
           </form>
           <IconBtn label="Bookmark"><Star size={15} /></IconBtn>
-          <button onClick={() => openPage('/profile')} className="flex items-center gap-1.5 h-8 px-3 rounded-full text-sm hover:bg-raised transition-colors">
-            <UserCircle size={16} /> <span className="hidden sm:inline">Sign in</span>
+          <button onClick={() => { try { base44.auth.loginWithProvider('google', window.location.href) } catch { openPage('/profile') } }} className="flex items-center gap-1.5 h-8 px-3 rounded-full text-sm hover:bg-raised transition-colors" title="Sign in with Google">
+            <UserCircle size={16} /> <span className="hidden sm:inline">Sign in with Google</span>
           </button>
         </div>
 
