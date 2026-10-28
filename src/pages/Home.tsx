@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { ArrowRight, Gamepad2, MessageCircle, Music2, Film, Sparkles, Youtube, Globe, Pencil, Plus, X, Search, Stethoscope, HeartPulse, CalendarDays, ShieldCheck, MapPin } from 'lucide-react'
-import { Section } from './_shared'
+import { ArrowRight, Gamepad2, MessageCircle, Music2, Sparkles, Youtube, Globe, Pencil, Plus, X, Search, Stethoscope, HeartPulse, CalendarDays, ShieldCheck, MapPin } from 'lucide-react'
 import { load, save } from '../lib/storage'
 import { withWebProxy } from '../lib/network'
 type Shortcut={label:string;url:string;kind:'orbit'|'web';icon:string}
