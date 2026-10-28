@@ -58,7 +58,7 @@ export default function Games(){
  const categories=['All',...Array.from(new Set(all.map(g=>g.category)))].sort((a,b)=>a==='All'?-1:a.localeCompare(b))
  const recent=useMemo(()=>[...activity].sort((a,b)=>b.lastPlayed-a.lastPlayed).map(a=>a.id),[activity])
  const list=useMemo(()=>all.filter(g=>(g.title+' '+g.category+' '+g.source).toLowerCase().includes(q.toLowerCase())&&(category==='All'||g.category===category)&&(view==='Browse'||(view==='Favorites'?favorites.includes(g.id):recent.includes(g.id)))),[all,q,category,view,favorites,recent])
- function launch(g:Game){setEmbedNotice(false);setActivity(a=>[{id:g.id,lastPlayed:Date.now(),count:(a.find(x=>x.id===g.id)?.count??0)+1},...a.filter(x=>x.id!==g.id)].slice(0,50));setFrameError(false);if(g.embed){setActive(g)}else{const opened=window.open(withWebProxy(g.url),'_blank','noopener,noreferrer');if(!opened){setActive(g);setFrameError(true)}}}
+ function launch(g:Game){setEmbedNotice(false);setActivity(a=>[{id:g.id,lastPlayed:Date.now(),count:(a.find(x=>x.id===g.id)?.count??0)+1},...a.filter(x=>x.id!==g.id)].slice(0,50));setFrameError(false);if(g.embed){setActive(g)}else{window.open(withWebProxy(g.url),'_blank','noopener,noreferrer')}}
  function close(){setActive(null);setFrameError(false);setEmbedNotice(false)}
  return <Page eyebrow="PLAY" title="Games" description="Browse games, save favorites, and jump back into recent plays." action={<Button kind="secondary" onClick={()=>window.open(withWebProxy('https://poki.com/'),'_blank','noopener')}><ExternalLink size={15}/> More games</Button>}>
  <div className="max-w-2xl"><SearchBox value={q} onChange={setQ} placeholder="Search games, genres, or providers…"/></div>
