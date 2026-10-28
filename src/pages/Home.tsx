@@ -1,15 +1,15 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { ArrowRight, Gamepad2, MessageCircle, Music2, Film, Sparkles, Youtube, Globe, Pencil, Plus, X, Search } from 'lucide-react'
 import { Page, Section, Tile } from './_shared'
 import { load, save } from '../lib/storage'
 import { withWebProxy } from '../lib/network'
 type Shortcut={label:string;url:string;kind:'orbit'|'web';icon:string}
+const HOME_LINKS=[{title:'Orbit AI',subtitle:'Think out loud',path:'/ai',icon:Sparkles},{title:'Games',subtitle:'Find your next game',path:'/games',icon:Gamepad2},{title:'Music',subtitle:'Your sound, your space',path:'/music',icon:Music2},{title:'Chat',subtitle:'Meet your communities',path:'/chat',icon:MessageCircle},{title:'Movies',subtitle:'Something to watch',path:'/movies',icon:Film}]
 const defaults:Shortcut[]=[{label:'Games',url:'/games',kind:'orbit',icon:'game'},{label:'Music',url:'/music',kind:'orbit',icon:'music'},{label:'Orbit AI',url:'/ai',kind:'orbit',icon:'ai'},{label:'Chat',url:'/chat',kind:'orbit',icon:'chat'},{label:'YouTube',url:'https://youtube.com',kind:'web',icon:'youtube'},{label:'Google',url:'https://google.com',kind:'web',icon:'web'},{label:'Discord',url:'https://discord.com/app',kind:'web',icon:'web'}]
 const icons:Record<string,typeof Gamepad2>={game:Gamepad2,music:Music2,ai:Sparkles,chat:MessageCircle,youtube:Youtube,web:Globe}
 export default function Home({ openPage }: { openPage: (path: string) => void }) {
  const [query,setQuery]=useState(''); const [editing,setEditing]=useState(false); const [shortcuts,setShortcuts]=useState<Shortcut[]>(()=>load('orbit.home.shortcuts',defaults)); const [shortcutName,setShortcutName]=useState('');const [shortcutUrl,setShortcutUrl]=useState('')
- const links=[{title:'Orbit AI',subtitle:'Think out loud',path:'/ai',icon:Sparkles},{title:'Games',subtitle:'Find your next game',path:'/games',icon:Gamepad2},{title:'Music',subtitle:'Your sound, your space',path:'/music',icon:Music2},{title:'Chat',subtitle:'Meet your communities',path:'/chat',icon:MessageCircle},{title:'Movies',subtitle:'Something to watch',path:'/movies',icon:Film}]
- const filtered=useMemo(()=>links.filter(x=>(x.title+' '+x.subtitle).toLowerCase().includes(query.toLowerCase())),[query])
+ const filtered=HOME_LINKS.filter(x=>(x.title+' '+x.subtitle).toLowerCase().includes(query.toLowerCase()))
  function goSearch(e:FormEvent){e.preventDefault();const q=query.trim();if(!q)return;const url=/^https?:\/\//i.test(q)?q:/^[\w-]+\.[\w.-]+(?:\/.*)?$/.test(q)?'https://'+q:'https://duckduckgo.com/?q='+encodeURIComponent(q);window.open(withWebProxy(url),'_blank','noopener,noreferrer')}
  function update(next:Shortcut[]){setShortcuts(next);save('orbit.home.shortcuts',next)}
  function addShortcut(e:FormEvent){e.preventDefault();const label=shortcutName.trim(),raw=shortcutUrl.trim();if(!label||!raw)return;const orbit=raw.startsWith('orbit://');const url=orbit?'/'+raw.slice(8):/^https?:\/\//i.test(raw)?raw:'https://'+raw;update([...shortcuts,{label,url,kind:orbit?'orbit':'web',icon:orbit?'ai':'web'}]);setShortcutName('');setShortcutUrl('')}
