@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, Gamepad2, MessageCircle, Music2, Sparkles, Youtube, Globe, Pencil, Plus, X, Search, Film } from 'lucide-react'
 import { load, save } from '../lib/storage'
-import { withWebProxy } from '../lib/network'
 type Shortcut={label:string;url:string;kind:'orbit'|'web';icon:string}
 const defaults:Shortcut[]=[{label:'Games',url:'/games',kind:'orbit',icon:'game'},{label:'Music',url:'/music',kind:'orbit',icon:'music'},{label:'Orbit AI',url:'/ai',kind:'orbit',icon:'ai'},{label:'Chat',url:'/chat',kind:'orbit',icon:'chat'},{label:'Movies',url:'/movies',kind:'orbit',icon:'movies'},{label:'YouTube',url:'https://youtube.com',kind:'web',icon:'youtube'},{label:'Google',url:'https://google.com',kind:'web',icon:'web'},{label:'Discord',url:'https://discord.com/app',kind:'web',icon:'web'}]
 const icons:Record<string,typeof Gamepad2>={game:Gamepad2,music:Music2,ai:Sparkles,chat:MessageCircle,movies:Film,youtube:Youtube,web:Globe}
