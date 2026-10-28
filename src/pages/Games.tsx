@@ -4,7 +4,8 @@ import { Page, SearchBox, Section, Tile, Button, Empty, useSavedState } from './
 import { withWebProxy } from '../lib/network'
 type Game={id:string;title:string;category:string;url:string;image:string;source:string;plays?:number;embed?:boolean}
 const seed:Game[]=[
-{id:'2048',title:'2048',category:'Puzzle',url:'https://play2048.co/',image:'https://raw.githubusercontent.com/gabrielecirulli/2048/master/meta/og_image.png',source:'Orbit built-in',plays:100,embed:true},\n{id:'tictactoe',title:'Tic-Tac-Toe',category:'2 Player',url:'',image:'',source:'Orbit built-in',plays:99,embed:true},
+{id:'2048',title:'2048',category:'Puzzle',url:'https://play2048.co/',image:'https://raw.githubusercontent.com/gabrielecirulli/2048/master/meta/og_image.png',source:'Orbit built-in',plays:100,embed:true},
+{id:'tictactoe',title:'Tic-Tac-Toe',category:'2 Player',url:'',image:'',source:'Orbit built-in',plays:99,embed:true},
 {id:'t-rex',title:'Dinosaur Game',category:'Arcade',url:'https://elgoog.im/t-rex/',image:'',source:'ElgooG',plays:95,embed:true},
 {id:'slope',title:'Slope',category:'Arcade',url:'https://poki.com/en/g/slope',image:'',source:'Poki',plays:94},
 {id:'retro-bowl',title:'Retro Bowl',category:'Sports',url:'https://poki.com/en/g/retro-bowl',image:'',source:'Poki',plays:93},
