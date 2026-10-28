@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Check, Sun, Search, Download, Trash2, Info, Shield, SlidersHorizontal } from 'lucide-react'
+import { Check, Sun, Search, Download, Trash2, Info, SlidersHorizontal } from 'lucide-react'
 import { Page, Section, Card, Button } from './_shared'
 import { themes, accents, loadTheme, applyTheme, type ThemeSettings } from '../lib/theme'
 import { load, save } from '../lib/storage'
