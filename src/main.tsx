@@ -9,7 +9,7 @@ import { applyTheme, loadTheme } from './lib/theme'
 const UNLOCK_KEY='orbit.workspace.unlocked'
 function PrivacyGate({children}:{children:React.ReactNode}) {
  const [unlocked,setUnlocked]=useState(()=>{try{return localStorage.getItem(UNLOCK_KEY)==='true'}catch{return false}})
- useEffect(()=>{if(unlocked)return;const held=new Set<string>();const down=(e:KeyboardEvent)=>{const k=e.key.toLowerCase();if(['l','e','n'].includes(k)){held.add(k);if(['l','e','n'].every(x=>held.has(x))){try{localStorage.setItem(UNLOCK_KEY,'true')}catch { /* keep unlock for this session */ };setUnlocked(true)}}};const up=(e:KeyboardEvent)=>{held.delete(e.key.toLowerCase())};window.addEventListener('keydown',down);window.addEventListener('keyup',up);return()=>{window.removeEventListener('keydown',down);window.removeEventListener('keyup',up)}},[unlocked])
+ useEffect(()=>{const held=new Set<string>();let fired=false;const down=(e:KeyboardEvent)=>{const k=e.key.toLowerCase();if(['l','e','n'].includes(k)){held.add(k);if(!fired&&['l','e','n'].every(x=>held.has(x))){fired=true;setUnlocked(prev=>{const next=!prev;try{localStorage.setItem(UNLOCK_KEY,String(next))}catch{/* session-only toggle */}return next})}}};const up=(e:KeyboardEvent)=>{held.delete(e.key.toLowerCase());if(['l','e','n'].includes(e.key.toLowerCase()))fired=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);return()=>{window.removeEventListener('keydown',down);window.removeEventListener('keyup',up)}},[])
  const [search,setSearch]=useState('')
  if(unlocked)return <>{children}</>
  return <main className="min-h-full overflow-y-auto bg-[#f4f7f8] text-slate-800">
