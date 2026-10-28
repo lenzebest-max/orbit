@@ -16,6 +16,7 @@ import Games from '../pages/Games'
 import Shop from '../pages/Shop'
 import SettingsPage from '../pages/Settings'
 import Profile from '../pages/Profile'
+import WebPage from '../pages/Web'
 
 type Tab = { id: number; path: string }
 const TABS_KEY = 'orbit.tabs'
@@ -74,7 +75,7 @@ export default function Shell() {
       const engine = load('orbit.settings.search', 'DuckDuckGo') as string
       const searchUrl = engine === 'Google' ? 'https://www.google.com/search?q=' : engine === 'Bing' ? 'https://www.bing.com/search?q=' : 'https://duckduckgo.com/?q='
       const url = /^https?:\/\//.test(v) || /^[\w-]+\.[\w.]+/.test(v) ? (v.startsWith('http') ? v : 'https://' + v) : searchUrl + encodeURIComponent(v)
-      window.open(withWebProxy(url), '_blank', 'noopener')
+      navigate('/web?url=' + encodeURIComponent(url))
       setAddress(toAddress(location.pathname))
     }
   }
@@ -142,6 +143,7 @@ export default function Shell() {
                   <Route path="/shop" element={<Shop />} />
                   <Route path="/settings" element={<SettingsPage />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/web" element={<WebPage />} />
                   <Route path="*" element={<Navigate to="/home" replace />} />
                 </Routes>
               </motion.div>
