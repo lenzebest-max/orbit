@@ -6,6 +6,7 @@ import { navOrder, pageFor, pages, toAddress } from './pages'
 import { PlayerProvider } from '../lib/player'
 import PlayerBar from './PlayerBar'
 import { load, save } from '../lib/storage'
+import { withWebProxy } from '../lib/network'
 import Home from '../pages/Home'
 import AI from '../pages/AI'
 import Chat from '../pages/Chat'
@@ -71,7 +72,7 @@ export default function Shell() {
       navigate(pageFor(p) && p in pages ? p : '/home')
     } else if (v) {
       const url = /^https?:\/\//.test(v) || /^[\w-]+\.[\w.]+/.test(v) ? (v.startsWith('http') ? v : 'https://' + v) : `https://duckduckgo.com/?q=${encodeURIComponent(v)}`
-      window.open(url, '_blank', 'noopener')
+      window.open(withWebProxy(url), '_blank', 'noopener')
       setAddress(toAddress(location.pathname))
     }
   }
