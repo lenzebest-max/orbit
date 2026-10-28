@@ -2,7 +2,7 @@ name: Orbit CI
 
 on:
   push:
-    branches: ["wip/app-shell", "main"]
+    branches: ["wip/app-shell", "main", "deploy/base44-connected", "fix/games-browser-auth"]
   pull_request:
     branches: ["wip/app-shell", "main"]
 
