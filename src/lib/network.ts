@@ -24,8 +24,12 @@ export function openInBrowserMode(url: string): boolean {
   const mode = getBrowserMode()
   if (mode === 'embedded') return false
   if (mode === 'new-tab') {
-    window.open(target, '_blank', 'noopener,noreferrer')
-    return true
+    const tab = window.open(target, '_blank')
+    if (tab) {
+      try { tab.opener = null } catch { /* browser security */ }
+      return true
+    }
+    return false
   }
   const tab = window.open('about:blank', '_blank')
   if (tab) {
