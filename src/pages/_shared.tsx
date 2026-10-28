@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { Search, Sparkles, ArrowUpRight } from 'lucide-react'
+import { Search, Sparkles, ArrowUpRight, Gamepad2 } from 'lucide-react'
 import { load, save } from '../lib/storage'
 
 export function Page({ eyebrow, title, description, children, action }: { eyebrow?: string; title: string; description?: string; children?: ReactNode; action?: ReactNode }) {
@@ -27,5 +27,5 @@ export function useSavedState<T>(key: string, initial: T) {
   return [value, update] as const
 }
 export function Tile({ title, subtitle, image, onClick, badge }: { title: string; subtitle?: string; image?: string; onClick?: () => void; badge?: string }) {
-  return <Card onClick={onClick} className="overflow-hidden"><div className="relative aspect-[16/10] bg-raised">{image ? <img src={image} alt="" loading="lazy" className="h-full w-full object-cover"/> : <div className="grid h-full place-items-center bg-gradient-to-br from-raised to-black text-3xl font-semibold text-accent">{title.slice(0,1)}</div>}{badge && <span className="absolute left-2 top-2 rounded-lg bg-black/75 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">{badge}</span>}</div><div className="flex items-center justify-between gap-2 p-3"><div className="min-w-0"><p className="truncate text-sm font-medium">{title}</p>{subtitle && <p className="mt-1 truncate text-xs text-muted">{subtitle}</p>}</div><ArrowUpRight size={15} className="shrink-0 text-muted"/></div></Card>
+  return <Card onClick={onClick} className="overflow-hidden"><div className="relative aspect-[16/10] overflow-hidden bg-raised">{image ? <img src={image} alt={title + ' cover'} loading="lazy" onError={e=>{e.currentTarget.style.display='none'}} className="absolute inset-0 h-full w-full object-cover"/> : null}<div className="absolute inset-0 bg-gradient-to-br from-accent/35 via-raised/90 to-black/95"/><div aria-hidden className="absolute -right-5 -top-5 rotate-12 text-accent/20"><Gamepad2 size={112}/></div><div className="absolute inset-0 flex flex-col justify-end p-3"><span className="mb-1 text-[9px] font-bold uppercase tracking-[.2em] text-accent">{subtitle || 'Game'}</span><span className="line-clamp-2 text-lg font-bold leading-tight text-white drop-shadow">{title}</span></div>{badge && <span className="absolute left-2 top-2 rounded-lg bg-black/75 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">{badge}</span>}</div><div className="flex items-center justify-between gap-2 p-3"><div className="min-w-0"><p className="truncate text-sm font-medium">{title}</p>{subtitle && <p className="mt-1 truncate text-xs text-muted">{subtitle}</p>}</div><ArrowUpRight size={15} className="shrink-0 text-muted"/></div></Card>
 }
