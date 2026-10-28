@@ -19,7 +19,7 @@ export function Empty({ title, body }: { title: string; body: string }) {
 }
 export function Button({ children, onClick, kind = 'primary', disabled = false }: { children: ReactNode; onClick?: () => void; kind?: 'primary' | 'secondary' | 'quiet'; disabled?: boolean }) {
   const styles = kind === 'primary' ? 'bg-accent text-on-accent hover:opacity-90' : kind === 'secondary' ? 'border border-line bg-raised hover:border-accent/50' : 'text-muted hover:text-fg hover:bg-raised'
-  return <button disabled={disabled} onClick={onClick} className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${styles}`}>{children}</button>
+  return <button type={onClick ? 'button' : 'submit'} disabled={disabled} onClick={onClick} className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${styles}`}>{children}</button>
 }
 export function useSavedState<T>(key: string, initial: T) {
   const [value, setValue] = useState<T>(() => load(key, initial))
