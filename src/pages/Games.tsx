@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Heart, Clock3, ExternalLink, Gamepad2, Maximize2, RotateCw, AlertTriangle } from 'lucide-react'
 import { Page, SearchBox, Section, Tile, Button, Empty, useSavedState } from './_shared'
 import { withWebProxy } from '../lib/network'
@@ -49,6 +50,7 @@ const seed:Game[]=[
 type Activity={id:string;lastPlayed:number;count:number}
 const activityKey='orbit.games.activity'
 export default function Games(){
+ const navigate=useNavigate()
  const [q,setQ]=useState('');const [view,setView]=useState('Browse');const [category,setCategory]=useState('All')
  const [favorites,setFavorites]=useSavedState<string[]>('orbit.games.favorites',[])
  const [activity,setActivity]=useSavedState<Activity[]>(activityKey,[])
@@ -59,7 +61,7 @@ export default function Games(){
  const categories=['All',...Array.from(new Set(all.map(g=>g.category)))].sort((a,b)=>a==='All'?-1:a.localeCompare(b))
  const recent=useMemo(()=>[...activity].sort((a,b)=>b.lastPlayed-a.lastPlayed).map(a=>a.id),[activity])
  const list=useMemo(()=>all.filter(g=>(g.title+' '+g.category+' '+g.source).toLowerCase().includes(q.toLowerCase())&&(category==='All'||g.category===category)&&(view==='Browse'||(view==='Favorites'?favorites.includes(g.id):recent.includes(g.id)))),[all,q,category,view,favorites,recent])
- function launch(g:Game){setActivity(a=>[{id:g.id,lastPlayed:Date.now(),count:(a.find(x=>x.id===g.id)?.count??0)+1},...a.filter(x=>x.id!==g.id)].slice(0,50));setFrameError(false);if(g.embed){setActive(g)}else{window.open(withWebProxy(g.url),'_blank','noopener,noreferrer')}}
+ function launch(g:Game){setActivity(a=>[{id:g.id,lastPlayed:Date.now(),count:(a.find(x=>x.id===g.id)?.count??0)+1},...a.filter(x=>x.id!==g.id)].slice(0,50));setFrameError(false);if(g.embed){setActive(g)}else{navigate('/web?url='+encodeURIComponent(withWebProxy(g.url)))}}
  function close(){setActive(null);setFrameError(false)}
  return <Page eyebrow="PLAY" title="Games" description="Browse games, save favorites, and jump back into recent plays." action={<Button kind="secondary" onClick={()=>window.open(withWebProxy('https://poki.com/'),'_blank','noopener')}><ExternalLink size={15}/> More games</Button>}>
  <div className="max-w-2xl"><SearchBox value={q} onChange={setQ} placeholder="Search games, genres, or providers…"/></div>
