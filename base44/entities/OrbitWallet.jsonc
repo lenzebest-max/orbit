@@ -1,0 +1,39 @@
+{
+  "name": "OrbitWallet",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "balance": {
+      "type": "number"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_id",
+    "balance"
+  ],
+  "rls": {
+    "read": {
+      "data.user_id": "{{user.id}}"
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
