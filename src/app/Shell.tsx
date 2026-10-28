@@ -71,7 +71,9 @@ export default function Shell() {
       const p = '/' + v.slice(8)
       navigate(pageFor(p) && p in pages ? p : '/home')
     } else if (v) {
-      const url = /^https?:\/\//.test(v) || /^[\w-]+\.[\w.]+/.test(v) ? (v.startsWith('http') ? v : 'https://' + v) : `https://duckduckgo.com/?q=${encodeURIComponent(v)}`
+      const engine = load('orbit.settings.search', 'DuckDuckGo') as string
+      const searchUrl = engine === 'Google' ? 'https://www.google.com/search?q=' : engine === 'Bing' ? 'https://www.bing.com/search?q=' : 'https://duckduckgo.com/?q='
+      const url = /^https?:\/\//.test(v) || /^[\w-]+\.[\w.]+/.test(v) ? (v.startsWith('http') ? v : 'https://' + v) : searchUrl + encodeURIComponent(v)
       window.open(withWebProxy(url), '_blank', 'noopener')
       setAddress(toAddress(location.pathname))
     }
